@@ -14,7 +14,8 @@ export const Navbar = ({
   searchQuery,
   setSearchQuery,
   onOpenProductDetails,
-  onViewAllInCatalog
+  onViewAllInCatalog,
+  onOpenQueryModal
 }) => {
   const { cartCount, setIsCartOpen, cartPulse } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -186,6 +187,7 @@ export const Navbar = ({
         handleNavClick={handleNavClick}
         petFilter={petFilter}
         setPetFilter={setPetFilter}
+        onOpenQueryModal={onOpenQueryModal}
       />
     </>
   );

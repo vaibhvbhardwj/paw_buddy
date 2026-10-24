@@ -13,6 +13,7 @@ import { ContactSection } from './components/contact/ContactSection';
 import { Footer } from './components/layout/Footer';
 import { CartDrawer } from './components/cart/CartDrawer';
 import { ProductDetailsModal } from './components/product/ProductDetailsModal';
+import { CustomerDetailsModal } from './components/common/CustomerDetailsModal';
 import { Toast } from './components/common/Toast';
 import { LegalPolicyView } from './components/legal/LegalPolicyView';
 
@@ -24,6 +25,7 @@ export function PawBuddyApp() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [activePolicyId, setActivePolicyId] = useState(null);
+  const [queryModalConfig, setQueryModalConfig] = useState({ isOpen: false, initialQuery: '' });
 
   // Check URL hash on initial load and handle direct navigation
   useEffect(() => {
@@ -135,6 +137,14 @@ export function PawBuddyApp() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenQueryModal = (initialQuery = '') => {
+    setQueryModalConfig({ isOpen: true, initialQuery });
+  };
+
+  const handleCloseQueryModal = () => {
+    setQueryModalConfig({ isOpen: false, initialQuery: '' });
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-ivory text-charcoal selection:bg-forest-100 selection:text-forest-900">
       {/* 1. Global Announcement Bar */}
@@ -150,6 +160,7 @@ export function PawBuddyApp() {
         setSearchQuery={setSearchQuery}
         onOpenProductDetails={handleOpenProductDetails}
         onViewAllInCatalog={scrollToCatalog}
+        onOpenQueryModal={handleOpenQueryModal}
       />
 
       {/* 3. Main Experience / Policy View */}
@@ -202,7 +213,11 @@ export function PawBuddyApp() {
       </main>
 
       {/* 4. Structured Editorial Footer */}
-      <Footer onNavigate={handleNavigate} onOpenPolicy={handleOpenPolicy} />
+      <Footer
+        onNavigate={handleNavigate}
+        onOpenPolicy={handleOpenPolicy}
+        onOpenQueryModal={handleOpenQueryModal}
+      />
 
       {/* 5. Drawers, Modals & Floating Overlays */}
       <CartDrawer />
@@ -211,6 +226,14 @@ export function PawBuddyApp() {
         product={selectedProduct}
         isOpen={isDetailsOpen}
         onClose={handleCloseProductDetails}
+      />
+
+      {/* Direct Query Modal for Navigation / Footer WhatsApp Triggers */}
+      <CustomerDetailsModal
+        isOpen={queryModalConfig.isOpen}
+        onClose={handleCloseQueryModal}
+        mode="query"
+        initialQuery={queryModalConfig.initialQuery}
       />
 
       <Toast />

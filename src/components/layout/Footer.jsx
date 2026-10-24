@@ -3,7 +3,7 @@ import { STORE_CONFIG } from '../../config/storeConfig';
 import { BrandLogo } from '../common/BrandLogo';
 import { MessageCircle, AlertCircle, ArrowUpRight, ShieldCheck } from 'lucide-react';
 
-export const Footer = ({ onNavigate, onOpenPolicy }) => {
+export const Footer = ({ onNavigate, onOpenPolicy, onOpenQueryModal }) => {
   return (
     <footer className="bg-forest-900 text-ivory/80 pt-16 pb-12 border-t border-forest-800 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,15 +22,18 @@ export const Footer = ({ onNavigate, onOpenPolicy }) => {
             </p>
 
             <div className="pt-1">
-              <a
-                href={`https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hello Paw Buddy team!')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-ivory text-forest-900 hover:bg-forest-50 px-4 py-2 rounded-lg font-semibold text-xs transition-editorial shadow-xs"
+              <button
+                type="button"
+                onClick={() => {
+                  if (onOpenQueryModal) {
+                    onOpenQueryModal('Hello Paw Buddy team!');
+                  }
+                }}
+                className="inline-flex items-center gap-2 bg-ivory text-forest-900 hover:bg-forest-50 px-4 py-2 rounded-lg font-semibold text-xs transition-editorial shadow-xs cursor-pointer"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
                 <span>Direct WhatsApp Inquiries</span>
-              </a>
+              </button>
             </div>
           </div>
 

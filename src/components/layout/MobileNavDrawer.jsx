@@ -10,7 +10,8 @@ export const MobileNavDrawer = ({
   activeTab,
   handleNavClick,
   petFilter,
-  setPetFilter
+  setPetFilter,
+  onOpenQueryModal
 }) => {
   // Lock body scroll while drawer is open without layout shift
   useEffect(() => {
@@ -144,14 +145,18 @@ export const MobileNavDrawer = ({
               <p className="text-[11px] text-charcoal-muted leading-relaxed">
                 Connect directly with our Bengaluru care team for order inquiries.
               </p>
-              <a
-                href={`https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hello Paw Buddy team!')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 block w-full py-2 px-3 text-center rounded-lg bg-forest-700 hover:bg-forest-800 text-ivory font-semibold text-xs transition-colors"
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  if (onOpenQueryModal) {
+                    onOpenQueryModal('Hello Paw Buddy team!');
+                  }
+                }}
+                className="mt-2 block w-full py-2 px-3 text-center rounded-lg bg-forest-700 hover:bg-forest-800 text-ivory font-semibold text-xs transition-colors cursor-pointer"
               >
                 Chat on WhatsApp
-              </a>
+              </button>
             </div>
 
             <p className="text-[10px] text-center text-charcoal-light">

@@ -3,17 +3,16 @@ import { STORE_CONFIG } from '../../config/storeConfig';
 import { useCart } from '../../context/CartContext';
 import { Phone, Mail, MapPin, Clock, MessageCircle, ArrowRight } from 'lucide-react';
 import { Reveal } from '../common/Reveal';
+import { CustomerDetailsModal } from '../common/CustomerDetailsModal';
 
 export const ContactSection = () => {
   const { activeWhatsappNumber } = useCart();
   const [inquiryText, setInquiryText] = useState('');
+  const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
 
   const handleSendDirectInquiry = (e) => {
     e.preventDefault();
-    const query = inquiryText.trim() || 'Hello Paw Buddy team! I have a question regarding pet nutrition and care.';
-    const encoded = encodeURIComponent(query);
-    const cleanNumber = activeWhatsappNumber.replace(/\D/g, '');
-    window.open(`https://wa.me/${cleanNumber}?text=${encoded}`, '_blank', 'noopener,noreferrer');
+    setIsQueryModalOpen(true);
   };
 
   return (
@@ -183,6 +182,15 @@ export const ContactSection = () => {
         </div>
 
       </div>
+
+      {/* Customer Details Popup for Query Flow (Address optional, GPS auto-detect available) */}
+      <CustomerDetailsModal
+        isOpen={isQueryModalOpen}
+        onClose={() => setIsQueryModalOpen(false)}
+        mode="query"
+        initialQuery={inquiryText}
+        onSuccess={() => setInquiryText('')}
+      />
     </section>
   );
 };

@@ -26,11 +26,12 @@ export const CartProvider = ({ children }) => {
   // Cart Drawer open/close state
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Optional customer details for WhatsApp ordering
+  // Customer details for WhatsApp ordering
   const [customerDetails, setCustomerDetails] = useState({
     name: '',
     address: '',
-    notes: ''
+    notes: '',
+    mapLocationUrl: ''
   });
 
   // Custom dev override for WhatsApp number (allows live testing in browser)
@@ -172,9 +173,12 @@ export const CartProvider = ({ children }) => {
     lines.push(`Estimated Total: ₹${estimatedTotal}`);
     lines.push('');
 
-    // Optional customer details
+    // Customer details
     lines.push(`Name: ${customerDetails.name.trim() || '[Not specified]'}`);
     lines.push(`Delivery Address: ${customerDetails.address.trim() || '[Not specified]'}`);
+    if (customerDetails.mapLocationUrl) {
+      lines.push(`Exact Map Location: ${customerDetails.mapLocationUrl}`);
+    }
     lines.push(`Order Notes: ${customerDetails.notes.trim() || '[None]'}`);
     lines.push('');
     lines.push('Please confirm availability, delivery charges, and the final order. Thank you!');

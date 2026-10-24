@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
+import { CustomerDetailsModal } from '../common/CustomerDetailsModal';
 import {
   ShoppingBag,
   MessageCircle,
@@ -28,22 +29,18 @@ export const CartDrawer = () => {
     estimatedTotal,
     isFreeDelivery,
     freeDeliveryThreshold,
-    customerDetails,
-    updateCustomerField,
-    getWhatsAppUrl,
   } = useCart();
 
-  const [notesExpanded, setNotesExpanded] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
   if (!isCartOpen) return null;
 
   const freeDeliveryProgress = Math.min(100, Math.round((subtotal / freeDeliveryThreshold) * 100));
   const amountRemainingForFreeDelivery = Math.max(0, freeDeliveryThreshold - subtotal);
 
-  const handleWhatsAppCheckout = () => {
+  const handleOpenDetails = () => {
     if (cartItems.length === 0) return;
-    const waUrl = getWhatsAppUrl();
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
+    setIsDetailsModalOpen(true);
   };
 
   return (
@@ -180,64 +177,6 @@ export const CartDrawer = () => {
                     </div>
                   </div>
                 ))}
-
-                {/* Optional Delivery Details Card */}
-                <div className="pt-4 mt-2">
-                  <button
-                    onClick={() => setNotesExpanded(!notesExpanded)}
-                    className="w-full text-left text-xs font-semibold text-charcoal flex items-center justify-between py-1.5 hover:text-forest-700 transition-colors"
-                  >
-                    <span>Delivery Address & Pet Notes (Optional)</span>
-                    {notesExpanded ? (
-                      <ChevronUp className="w-4 h-4 text-charcoal-muted" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-charcoal-muted" />
-                    )}
-                  </button>
-
-                  {notesExpanded && (
-                    <div className="mt-3 space-y-2.5 bg-ivory-subtle p-3.5 rounded-xl border border-ivory-border text-xs animate-fade-in">
-                      <div>
-                        <label className="block text-[11px] font-semibold text-charcoal-muted mb-1">
-                          Pet Parent / Companion Name:
-                        </label>
-                        <input
-                          type="text"
-                          value={customerDetails.name}
-                          onChange={(e) => updateCustomerField('name', e.target.value)}
-                          placeholder="e.g. Vaibhav & Milo"
-                          className="w-full bg-ivory border border-ivory-border rounded-lg px-2.5 py-1.5 text-xs text-charcoal focus:outline-none focus:border-forest-700"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-semibold text-charcoal-muted mb-1">
-                          Delivery Address & Area:
-                        </label>
-                        <input
-                          type="text"
-                          value={customerDetails.address}
-                          onChange={(e) => updateCustomerField('address', e.target.value)}
-                          placeholder="e.g. 42 Palm Grove, Indiranagar, Bengaluru"
-                          className="w-full bg-ivory border border-ivory-border rounded-lg px-2.5 py-1.5 text-xs text-charcoal focus:outline-none focus:border-forest-700"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-semibold text-charcoal-muted mb-1">
-                          Special Instructions:
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={customerDetails.notes}
-                          onChange={(e) => updateCustomerField('notes', e.target.value)}
-                          placeholder="e.g. Ring bell once, leave at door if busy."
-                          className="w-full bg-ivory border border-ivory-border rounded-lg px-2.5 py-1.5 text-xs text-charcoal focus:outline-none focus:border-forest-700 resize-none"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
               </>
             )}
           </div>
@@ -275,9 +214,9 @@ export const CartDrawer = () => {
                 </p>
               </div>
 
-              {/* Main CTA: Order via WhatsApp */}
+              {/* Main CTA: Opens Delivery Details Popup Screen */}
               <button
-                onClick={handleWhatsAppCheckout}
+                onClick={handleOpenDetails}
                 className="w-full py-3.5 px-4 rounded-xl bg-forest-700 hover:bg-forest-800 text-ivory text-sm font-semibold transition-editorial shadow-soft hover:shadow-card flex items-center justify-center gap-2 select-none"
               >
                 <MessageCircle className="w-4 h-4 text-ivory shrink-0" />
@@ -298,6 +237,17 @@ export const CartDrawer = () => {
 
         </div>
       </div>
+
+      {/* Mandatory Customer Details Popup Screen for WhatsApp Ordering */}
+      <CustomerDetailsModal
+        isOpen={isDetailsModalOpen}
+        onClose={() => setIsDetailsModalOpen(false)}
+        mode="order"
+        onSuccess={() => {
+          setIsDetailsModalOpen(false);
+          setIsCartOpen(false);
+        }}
+      />
     </div>
   );
 };

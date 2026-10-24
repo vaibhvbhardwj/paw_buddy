@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { ProductCard } from './ProductCard';
 import { CATEGORIES } from '../../data/products';
 import { SlidersHorizontal, RotateCcw, Search, Sparkles, PackageX } from 'lucide-react';
-import { Reveal } from '../common/Reveal';
 
 export const ProductGrid = ({
   products,
@@ -109,8 +108,7 @@ export const ProductGrid = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Row */}
-        <Reveal>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-ivory-border">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-ivory-border">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xs font-semibold uppercase tracking-wider text-forest-700">
@@ -190,7 +188,6 @@ export const ProductGrid = ({
               </button>
             </div>
           </div>
-        </Reveal>
 
         {/* Category Horizontal Filter Pills */}
         <div className="flex items-center gap-2 overflow-x-auto py-4 scrollbar-none border-b border-ivory-border/60">
@@ -322,17 +319,15 @@ export const ProductGrid = ({
                   <span className="hidden sm:inline">WhatsApp order confirmation</span>
                 </div>
 
-                <Reveal>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 transition-opacity duration-300">
-                    {filteredProducts.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onOpenDetails={onOpenDetails}
-                      />
-                    ))}
-                  </div>
-                </Reveal>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filteredProducts.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      onOpenDetails={onOpenDetails}
+                    />
+                  ))}
+                </div>
               </>
             )}
           </main>
