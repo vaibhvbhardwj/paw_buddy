@@ -1,0 +1,10 @@
+# robots.txt for Paw Buddy Storefront
+# Production Domain: https://pawbuddy.store (Configurable Production Domain)
+
+User-agent: *
+Allow: /
+
+# Disallow internal or non-public build endpoints if any
+Disallow: /api/
+
+Sitemap: https://pawbuddy.store/sitemap.xml

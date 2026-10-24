@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-ivory: #FCFBF8;
+    --color-charcoal: #1E2220;
+    --color-forest: #1B4332;
+    --color-sage: #7A8C76;
+    --color-clay: #C87D55;
+    --color-border: #E8E4DD;
+  }
+
+  body {
+    background-color: #FCFBF8;
+    color: #1E2220;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Accessible focus states */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #1B4332;
+    outline-offset: 2px;
+  }
+
+  /* Modern Web Guidance: prevent-page-scroll-under-modal-dialog */
+  dialog:modal {
+    overscroll-behavior: contain;
+  }
+
+  dialog::backdrop {
+    overflow: hidden;
+    overscroll-behavior: contain;
+    background-color: rgba(22, 28, 25, 0.48);
+    backdrop-filter: blur(4px);
+  }
+}
+
+@layer utilities {
+  /* Editorial card & subtle borders */
+  .border-subtle {
+    border: 1px solid #E8E4DD;
+  }
+
+  .border-subtle-hover:hover {
+    border-color: #D3CDC2;
+  }
+
+  /* Smooth transition utilities */
+  .transition-editorial {
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Card hover lift: 3-4px lift with refined shadow, GPU-friendly */
+  .card-lift {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, box-shadow;
+  }
+
+  .card-lift:hover {
+    transform: translateY(-3.5px);
+    box-shadow: 0 10px 24px -4px rgba(27, 67, 50, 0.08), 0 3px 8px -2px rgba(0, 0, 0, 0.03);
+  }
+
+  /* Scroll Reveal Transitions */
+  .reveal-init {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animations */
+@keyframes cartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+.animate-cart-pulse {
+  animation: cartPulse 0.32s cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+
+@keyframes drawerSlideRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-right {
+  animation: drawerSlideRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes searchFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-search-dropdown {
+  animation: searchFadeDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-init {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .animate-cart-pulse,
+  .animate-slide-right,
+  .animate-search-dropdown {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Refined minimal scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FCFBF8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8D2C6;
+  border-radius: 9999px;
+  border: 2px solid #FCFBF8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A69E90;
+}
